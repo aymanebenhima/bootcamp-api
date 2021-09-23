@@ -6,11 +6,19 @@ const {
     updateCourse,
     deleteCourse
  } = require('../controllers/courses')
-const router = express.Router({ mergeParams: true })
+
+ const Course = require('../models/Course')
+
+ const getResults = require('../middleware/getResults')
+
+ const router = express.Router({ mergeParams: true })
 
 router
 .route('/')
-.get(getAllCourses)
+.get(getResults(Course,{
+    path: 'bootcamp',
+    select: 'name description'
+  }), getAllCourses)
 .post(createCourse);
 
 router
